@@ -1,0 +1,10 @@
+e2220e8a1a07ca539250f10e0d92569f *DESCRIPTION
+be5c5d963cac7024e37899cb2743db46 *LICENSE
+bb3161857652a312dfa54471f7683194 *NAMESPACE
+d98d02c8d29bf61152ee53f360a70f76 *R/bacen_api.R
+e15398d7c851aee6f30cbfc0f1e69c3c *R/bacen_series.R
+1054616a8e439d19bfd9ba8bee9185e4 *R/bacen_url.R
+e915cd0d44e7bb3be428eb38567faf55 *README.md
+ae2cabfd442a713a59134c8ee82d56c4 *man/bacen_api.Rd
+1e650fcfa387d02eae9277bc604ce49f *man/bacen_series.Rd
+14ca70d8b8b0db96fdb6040e9e84111e *man/bacen_url.Rd
