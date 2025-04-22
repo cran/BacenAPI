@@ -1,56 +1,58 @@
-#' Fetch Multiple Central Bank Series
+#' Retrieve Data from BACEN API
 #'
-#' This function retrieves data from multiple Central Bank series, given a vector of series IDs and corresponding names.
+#' This function establishes a connection with the Central Bank of Brazil (BACEN) API
+#' to retrieve data in JSON format and convert it into a readable format such as a data frame or list.
+#' The connection is attempted up to 3 times in case of failure.
 #'
-#' @param series A numeric vector containing the series IDs from Central Bank API.
-#' @param names A character vector containing the names corresponding to each series.
-#' @param start_date A string specifying the start date in "dd/mm/yyyy" format.
-#' @param end_date A string specifying the end date in "dd/mm/yyyy" format.
-#' @param httr A logical value indicating whether to use `httr` (`TRUE`) or `httr2` (`FALSE`). Default is `TRUE`.
+#' @param urls A string containing the BACEN API URL for the desired series.
+#' @param httr A logical value. If `TRUE`, the function uses the `httr` package to connect.
+#' If `FALSE`, the function uses the `httr2` package. Default is `TRUE`.
 #'
-#' @return A `data.frame` containing the retrieved series data.
+#' @return Returns the content of the API response converted into an R object (usually a list or data frame),
+#' or `NULL` if the connection fails after 3 attempts.
 #'
 #' @examples
-#' series <- c('433', '13005')
-#' names <- c('ipca_br', 'ipca_for')
-#' data <- bacen_series(series, names,
-#' "01/01/2020", "31/12/2023",
-#' httr = TRUE) # in the format "dd/mm/yyyy"
-#'
-#'
+#' # Example using the httr package
+#' url <- bacen_url(c('433', '13005'), "01/01/2023", "31/12/2023")  # Date format: "dd/mm/yyyy"
+#' bacen_series(url, httr = TRUE)
 #'
 #' @export
-bacen_series <- function(series, names, start_date, end_date, httr = TRUE) {
-  # Criar uma lista para armazenar os dados
-  series_data <- list()
+bacen_series <- function(urls, httr = TRUE) {
+  `%>%` <- magrittr::`%>%`
 
-  # Percorrer todas as séries
-  for (i in seq_along(series)) {
-    # Criar a URL para a série específica
-    url <- bacen_url(series[i], start_date, end_date)
-
-    # Obter os dados da API
-    data <- tryCatch(
-      bacen_api(url, httr),
-      error = function(e) {
-        message(paste("Failed to fetch series:", series[i]))
-        return(NULL)
-      }
-    )
-
-    # Se os dados forem válidos, adicioná-los à lista
-    if (!is.null(data)) {
-      series_data[[names[i]]] <- data$valor
-    }
+  if (!is.vector(urls)) {
+    stop("The 'urls' argument must be a vector of URLs.")
   }
 
-  # Criar um data frame final com as datas como índice
-  if (length(series_data) > 0) {
-    df <- data.frame(data$data, series_data)
-    colnames(df)[1] <- "date"  # Nome da coluna de datas
-    return(df)
-  } else {
-    message("No data retrieved for any series.")
+  series_list <- lapply(seq_along(urls), function(i) {
+    data <- bacen_api(urls[i], httr = httr)
+
+    if (is.null(data)) {
+      return(NULL)
+    }
+
+    # Convert data types
+    data$date <- as.Date(data$data, format = "%d/%m/%Y")
+    data$value <- as.numeric(data$valor)
+
+    # Select and rename columns
+    data <- data[, c("date", "value")]
+    colnames(data)[2] <- paste0("series_", i)
+
+    return(data)
+  })
+
+  # Remove failed series
+  series_list <- series_list[!sapply(series_list, is.null)]
+
+  if (length(series_list) == 0) {
+    message("No series were successfully loaded.")
     return(NULL)
   }
+
+  # Merge data.frames by the date column
+  final_df <- Reduce(function(x, y) merge(x, y, by = "date", all = TRUE), series_list)
+
+  return(final_df)
 }
+

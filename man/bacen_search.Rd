@@ -21,7 +21,4 @@ Performs a search for financial indicator series based on a keyword.
 # Search for indices related to Fortaleza
 bacen_search("fortaleza")
 
-# Search for indices related to Fortaleza
-bacen_search("fortaleza")
-
 }

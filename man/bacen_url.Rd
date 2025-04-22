@@ -24,6 +24,4 @@ data provided by the Central Bank of Brazil API.
 # Generate a URL for series 433 (IPCA) from 01/01/2003 to 31/12/2023.
 bacen_url(433, "01/01/2020", "31/12/2023") # in the format "dd/mm/yyyy"
 
-
-
 }

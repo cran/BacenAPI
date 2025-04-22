@@ -1,5 +1,5 @@
 Package: BacenAPI
-Version: 0.2.0
+Version: 0.3.1
 Title: Data Collection from the Central Bank of Brazil
 Description: Provides tools to facilitate the access and processing of data 
     from the Central Bank of Brazil API. The package allows users 
@@ -7,8 +7,8 @@ Description: Provides tools to facilitate the access and processing of data
     tabular formats for further analysis. The data is obtained from the 
     Central Bank of Brazil API: <https://api.bcb.gov.br/dados/serie/bcdata.sgs.{series_code}/dados?formato=json&dataInicial={start_date}&dataFinal={end_date}>.
 License: MIT + file LICENSE
-URL: https://github.com/LissandroSousa/BacenAPI
-BugReports: https://github.com/LissandroSousa/BacenAPI/issues
+URL: https://github.com/LissandroSousa/BacenAPI.r
+BugReports: https://github.com/LissandroSousa/BacenAPI.r/issues
 Imports: httr, httr2, jsonlite, magrittr
 Encoding: UTF-8
 LazyData: true
@@ -30,10 +30,10 @@ Authors@R: c(
     )
   )
 Depends: R (>= 3.5)
-Packaged: 2025-03-31 16:08:11 UTC; lisan
+Packaged: 2025-04-22 12:08:41 UTC; lisan
 Author: Paulo Icaro [aut],
   Lissandro Sousa [cre, aut],
   Francisco Gildemir Ferreira da Silva [ths, aut]
 Maintainer: Lissandro Sousa <lisandrosousa54@gmail.com>
 Repository: CRAN
-Date/Publication: 2025-03-31 16:40:10 UTC
+Date/Publication: 2025-04-22 12:20:02 UTC

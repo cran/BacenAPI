@@ -9,15 +9,6 @@ utils::globalVariables("dataset")
 #'
 #' @return A data frame with the columns `Code`, `Full_Name`, `Unit`, `Periodicity`, and `Start_Date` corresponding to the search results.
 #'
-#' @examples
-#' # Search for indices related to Fortaleza
-#' bacen_search("fortaleza")
-#'
-#' @export
-#' Search for Financial Indicators Series Number
-#'
-#' Performs a search for financial indicator series based on a keyword.
-#'
 #' @param keyword A string containing the search term in Portuguese - BR (e.g., "câmbio", "juros", "Bovespa").
 #'
 #' @return A data frame with the columns `Code`, `Full_Name`, `Unit`, `Periodicity`, and `Start_Date` corresponding to the search results.

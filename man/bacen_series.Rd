@@ -2,34 +2,28 @@
 % Please edit documentation in R/bacen_series.R
 \name{bacen_series}
 \alias{bacen_series}
-\title{Fetch Multiple Central Bank Series}
+\title{Retrieve Data from BACEN API}
 \usage{
-bacen_series(series, names, start_date, end_date, httr = TRUE)
+bacen_series(urls, httr = TRUE)
 }
 \arguments{
-\item{series}{A numeric vector containing the series IDs from Central Bank API.}
+\item{urls}{A string containing the BACEN API URL for the desired series.}
 
-\item{names}{A character vector containing the names corresponding to each series.}
-
-\item{start_date}{A string specifying the start date in "dd/mm/yyyy" format.}
-
-\item{end_date}{A string specifying the end date in "dd/mm/yyyy" format.}
-
-\item{httr}{A logical value indicating whether to use `httr` (`TRUE`) or `httr2` (`FALSE`). Default is `TRUE`.}
+\item{httr}{A logical value. If `TRUE`, the function uses the `httr` package to connect.
+If `FALSE`, the function uses the `httr2` package. Default is `TRUE`.}
 }
 \value{
-A `data.frame` containing the retrieved series data.
+Returns the content of the API response converted into an R object (usually a list or data frame),
+or `NULL` if the connection fails after 3 attempts.
 }
 \description{
-This function retrieves data from multiple Central Bank series, given a vector of series IDs and corresponding names.
+This function establishes a connection with the Central Bank of Brazil (BACEN) API
+to retrieve data in JSON format and convert it into a readable format such as a data frame or list.
+The connection is attempted up to 3 times in case of failure.
 }
 \examples{
-series <- c('433', '13005')
-names <- c('ipca_br', 'ipca_for')
-data <- bacen_series(series, names,
-"01/01/2020", "31/12/2023",
-httr = TRUE) # in the format "dd/mm/yyyy"
-
-
+# Example using the httr package
+url <- bacen_url(c('433', '13005'), "01/01/2023", "31/12/2023")  # Date format: "dd/mm/yyyy"
+bacen_series(url, httr = TRUE)
 
 }

@@ -13,15 +13,10 @@
 #' # Generate a URL for series 433 (IPCA) from 01/01/2003 to 31/12/2023.
 #' bacen_url(433, "01/01/2020", "31/12/2023") # in the format "dd/mm/yyyy"
 #'
-#'
-#'
 #' @export
 bacen_url <- function(series, start_date, end_date){
-  url = 'https://api.bcb.gov.br/dados/serie/bcdata.sgs.'
-
-  for(i in series){
-    bacen_url = paste0(url, series, '/dados?formato=json&dataInicial=', start_date, '&dataFinal=', end_date)
-  }
-
-  return(bacen_url)
+  url_base <- 'https://api.bcb.gov.br/dados/serie/bcdata.sgs.'
+  urls <- paste0(url_base, series, '/dados?formato=json&dataInicial=', start_date, '&dataFinal=', end_date)
+  return(urls)
 }
+
